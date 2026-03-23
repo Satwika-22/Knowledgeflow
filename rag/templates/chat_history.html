@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat History Database | KnowledgeFlow AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-bg: #0b1120; --sidebar-surface: #172033; --sidebar-text: #ffffff; --sidebar-muted: #94a3b8; --sidebar-border: rgba(255, 255, 255, 0.05); --sidebar-hover: rgba(255, 255, 255, 0.03);
+            --bg-main: #f4f7f9; --bg-panel: #ffffff; --text-main: #1e293b; --text-muted: #64748b; --border-light: #e2e8f0; --panel-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            --accent-primary: #3b82f6; --status-success: #10b981;
+            --sidebar-width: 280px; --radius-md: 12px; --radius-lg: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; overflow: hidden; background-color: var(--sidebar-bg); }
+
+        /* EXACT SIDEBAR */
+        .sidebar { width: var(--sidebar-width); background-color: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); display: flex; flex-direction: column; z-index: 10; flex-shrink: 0; }
+        .sidebar-brand { padding: 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--sidebar-border); }
+        .brand-logo { width: 36px; height: 36px; background: linear-gradient(135deg, #6366f1, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: white; }
+        .brand-name { font-size: 1.2rem; font-weight: 700; color: var(--sidebar-text); }
+        .nav-container { flex: 1; overflow-y: auto; padding: 20px 0; }
+        .nav-group { margin-bottom: 32px; }
+        .nav-group-header { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--sidebar-muted); font-weight: 700; padding: 0 24px; margin-bottom: 12px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: var(--sidebar-muted); text-decoration: none; font-weight: 500; transition: 0.2s; border-left: 3px solid transparent; }
+        .nav-item:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text); }
+        .nav-item.active { background: var(--sidebar-surface); border-left-color: var(--accent-primary); color: var(--sidebar-text); }
+        .nav-icon { width: 18px; height: 18px; opacity: 0.8; }
+        .nav-item.active .nav-icon { color: #60a5fa; opacity: 1; }
+
+        /* WORKSPACE & DATAGRID */
+        .workspace { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); color: var(--text-main); }
+        .topbar { height: 75px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-panel); border-bottom: 1px solid var(--border-light); }
+        .dashboard-scroll { flex: 1; overflow-y: auto; padding: 50px; display: flex; flex-direction: column; }
+        
+        .panel { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--panel-shadow); flex: 1; display: flex; flex-direction: column;}
+        .toolbar { display: flex; justify-content: space-between; margin-bottom: 24px; align-items: center; }
+        .search-bar { padding: 12px 16px; border: 1px solid var(--border-light); border-radius: 8px; width: 350px; font-size: 0.95rem; outline: none; transition: 0.2s; }
+        .search-bar:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .btn-export { background: white; border: 1px solid var(--border-light); padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+
+        .table-wrapper { overflow-x: auto; flex: 1; border: 1px solid var(--border-light); border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 16px; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; background: #f8fafc; border-bottom: 2px solid var(--border-light); position: sticky; top: 0; z-index: 10;}
+        td { padding: 16px; font-size: 0.95rem; border-bottom: 1px solid var(--border-light); vertical-align: top; line-height: 1.5; }
+        tr:hover td { background-color: #f8fafc; }
+        
+        .col-query { width: 25%; font-weight: 600; color: var(--text-main); }
+        .col-response { width: 35%; color: var(--text-muted); }
+        .col-source { width: 20%; }
+        .source-pill { background: #f0fdf4; color: #166534; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; border: 1px solid #bbf7d0; display: inline-block;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-brand"><div class="brand-logo">KF</div><div class="brand-name">KnowledgeFlow</div></div>
+        <nav class="nav-container">
+            <div class="nav-group">
+                <div class="nav-group-header">Knowledge Pipeline</div>
+                <a href="/ingestion" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Multi-Format Ingestion</a>
+                <a href="/vector-indexing" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> Semantic Vector Indexing</a>
+            </div>
+            <div class="nav-group">
+                <div class="nav-group-header">Intelligence Core</div>
+                <a href="/chat-engine" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> Context-Aware Engine</a>
+                <a href="/source-attribution" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Source Attribution</a>
+            </div>
+            <div class="nav-group">
+                <div class="nav-group-header">Analytics & Records</div>
+                <a href="/metrics" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Real-Time Metrics</a>
+                <a href="/chat-history" class="nav-item active" style="border-left: none; background: var(--sidebar-surface);"><svg class="nav-icon" style="color:#60a5fa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Persistent Chat History</a>
+            </div>
+        </nav>
+        <div class="sidebar-footer" style="padding: 24px; border-top: 1px solid var(--sidebar-border); margin-top: auto;">
+            <button class="btn-logout" onclick="terminateSession()" style="
+                width: 100%; 
+                padding: 12px; 
+                background: transparent; 
+                border: 1px solid rgba(239, 68, 68, 0.5); 
+                color: #ef4444; 
+                border-radius: 6px; 
+                font-family: 'Inter', sans-serif;
+                font-weight: 600; 
+                font-size: 0.9rem; 
+                cursor: pointer; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                gap: 10px; 
+                transition: all 0.2s ease;
+            " onmouseover="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.borderColor='#ef4444';" onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(239, 68, 68, 0.5)';">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Terminate Session
+            </button>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <header class="topbar">
+            <div style="font-size: 1.25rem; font-weight: 700;">MySQL Enterprise History Logs</div>
+        </header>
+
+        <div class="dashboard-scroll">
+            <div class="panel">
+                <div class="toolbar">
+                    <input type="text" id="searchLogs" class="search-bar" placeholder="Search user queries or AI responses..." onkeyup="filterHistory()">
+                    <button class="btn-export" onclick="alert('Exporting MySQL Data to CSV...')">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Export Data
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="historyTable">
+                        <thead>
+                            <tr>
+                                <th class="col-query">User Query</th>
+                                <th class="col-response">AI Response</th>
+                                <th class="col-source">Retrieved Source</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            <tr><td colspan="4" style="text-align: center;">Loading MySQL Data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function fetchHistoryGrid() {
+            try {
+                const res = await fetch('/api/history/full');
+                const history = await res.json();
+                const tbody = document.getElementById('historyBody');
+                tbody.innerHTML = '';
+
+                history.forEach(row => {
+                    const dateStr = new Date(row.query_time).toLocaleString();
+                    tbody.innerHTML += `
+                        <tr>
+                            <td class="col-query">${escapeHTML(row.user_query)}</td>
+                            <td class="col-response">${escapeHTML(row.ai_response)}</td>
+                            <td class="col-source"><span class="source-pill">${escapeHTML(row.source_cited)}</span></td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem;">${dateStr}</td>
+                        </tr>
+                    `;
+                });
+            } catch (e) { console.error("History fetch error", e); }
+        }
+
+        function filterHistory() {
+            const filter = document.getElementById("searchLogs").value.toUpperCase();
+            const tr = document.getElementById("historyTable").getElementsByTagName("tr");
+            for (let i = 1; i < tr.length; i++) {
+                const text = tr[i].textContent || tr[i].innerText;
+                tr[i].style.display = text.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+            }
+        }
+
+        function escapeHTML(str) { return str ? str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag)) : ''; }
+
+        fetchHistoryGrid();
+    </script>
+</body>
+</html>

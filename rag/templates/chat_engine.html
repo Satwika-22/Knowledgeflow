@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context-Aware Engine | KnowledgeFlow AI</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & DESIGN TOKENS (Enterprise Theme)
+           ========================================================================== */
+        :root {
+            /* Sidebar Navy Palette */
+            --sidebar-bg: #0b1120; 
+            --sidebar-surface: #172033; 
+            --sidebar-text: #ffffff; 
+            --sidebar-muted: #94a3b8; 
+            --sidebar-border: rgba(255, 255, 255, 0.05); 
+            --sidebar-hover: rgba(255, 255, 255, 0.03);
+            
+            /* Main Workspace Palette */
+            --bg-main: #f8fafc; 
+            --bg-panel: #ffffff; 
+            --text-main: #1e293b; 
+            --text-muted: #64748b; 
+            --border-light: #e2e8f0; 
+            
+            /* Elevation & Shadows */
+            --panel-shadow: 0 4px 15px rgba(0,0,0,0.03), 0 10px 25px -5px rgba(0,0,0,0.05);
+            
+            /* Accents */
+            --accent-primary: #3b82f6; 
+            --accent-secondary: #8b5cf6; 
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --status-success: #10b981; 
+            --status-danger: #ef4444;
+            
+            /* Architectural Sizing */
+            --sidebar-width: 280px; 
+            --radius-sm: 8px;
+            --radius-md: 12px; 
+            --radius-lg: 16px;
+        }
+
+        /* ==========================================================================
+           2. GLOBAL RESETS
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        body { display: flex; height: 100vh; overflow: hidden; font-size: 14px; background-color: var(--sidebar-bg); }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* ==========================================================================
+           3. SIDEBAR ARCHITECTURE (EXACT 6-ITEM MATCH)
+           ========================================================================== */
+        .sidebar { width: var(--sidebar-width); background-color: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); display: flex; flex-direction: column; z-index: 10; flex-shrink: 0; }
+        .sidebar-brand { padding: 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--sidebar-border); }
+        .brand-logo { width: 36px; height: 36px; background: linear-gradient(135deg, #6366f1, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: white; box-shadow: 0 4px 15px var(--accent-glow); }
+        .brand-name { font-size: 1.2rem; font-weight: 700; color: var(--sidebar-text); letter-spacing: 0.5px;}
+        
+        .nav-container { flex: 1; overflow-y: auto; padding: 20px 0; }
+        .nav-group { margin-bottom: 32px; }
+        .nav-group-header { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--sidebar-muted); font-weight: 700; padding: 0 24px; margin-bottom: 12px; }
+        
+        /* STANDARD <a> LINKS (Fixes the page loading issue) */
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: var(--sidebar-muted); text-decoration: none; font-weight: 500; transition: 0.2s ease; border-left: 3px solid transparent; cursor: pointer; }
+        .nav-item:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text); }
+        .nav-item.active { background: var(--sidebar-surface); color: var(--sidebar-text); border-left-color: var(--accent-primary); }
+        .nav-icon { width: 18px; height: 18px; opacity: 0.8; transition: 0.2s ease; }
+        .nav-item.active .nav-icon { color: var(--accent-primary); opacity: 1; }
+
+        .sidebar-footer { padding: 24px; border-top: 1px solid var(--sidebar-border); margin-top: auto; }
+        .btn-logout { width: 100%; padding: 12px; background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: var(--status-danger); border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s ease; text-decoration: none;}
+        .btn-logout:hover { background: rgba(239, 68, 68, 0.1); border-color: var(--status-danger); }
+
+        /* ==========================================================================
+           4. WORKSPACE TOPBAR
+           ========================================================================== */
+        .workspace { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-main); color: var(--text-main); position: relative;}
+        .topbar { height: 75px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-panel); border-bottom: 1px solid var(--border-light); z-index: 5; flex-shrink: 0; }
+        .system-status { display: flex; align-items: center; gap: 15px; font-weight: 700; font-size: 1.25rem;}
+        .live-indicator { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: #d1fae5; color: #065f46; border: 1px solid #34d399; display: flex; align-items: center; gap: 6px; }
+        .pulse { width: 8px; height: 8px; background: var(--status-success); border-radius: 50%; animation: pulse-anim 1.5s infinite; }
+        @keyframes pulse-anim { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); } 70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        
+        .user-profile { display: flex; align-items: center; gap: 15px; text-align: right;}
+        .user-name { font-weight: 700; font-size: 0.95rem; line-height: 1.2;}
+        .user-role { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+        .avatar { width: 42px; height: 42px; border-radius: 50%; background: #eff6ff; color: var(--accent-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
+
+        /* ==========================================================================
+           5. CLEAN CHAT ENGINE UI
+           ========================================================================== */
+        .chat-layout { display: flex; flex: 1; overflow: hidden; justify-content: center; background: #ffffff;}
+        .chat-core { width: 100%; max-width: 1000px; display: flex; flex-direction: column; position: relative; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); box-shadow: var(--panel-shadow);}
+        
+        .chat-scroll { flex: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; gap: 30px; scroll-behavior: smooth; }
+        
+        /* Message Bubbles */
+        .message-wrapper { display: flex; gap: 15px; width: 100%; align-items: flex-start;}
+        .message-wrapper.user { flex-direction: row-reverse; }
+        
+        .chat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .user .chat-avatar { background: #e0e7ff; color: var(--accent-primary); }
+        .ai .chat-avatar { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; }
+        
+        .bubble-container { display: flex; flex-direction: column; max-width: 85%; }
+        .user .bubble-container { align-items: flex-end; }
+        .ai .bubble-container { align-items: flex-start; }
+
+        /* Pure Text Bubbles (No Citation Boxes) */
+        .bubble { padding: 18px 24px; border-radius: var(--radius-lg); font-size: 1rem; line-height: 1.7; box-shadow: var(--panel-shadow); white-space: pre-wrap; }
+        .user .bubble { background: var(--accent-primary); color: white; border-top-right-radius: 4px; }
+        .ai .bubble { background: #f8fafc; color: var(--text-main); border: 1px solid var(--border-light); border-top-left-radius: 4px; }
+
+        /* Action Buttons (Copy/Regenerate) */
+        .message-actions { display: flex; gap: 8px; margin-top: 8px; opacity: 0; transition: opacity 0.2s ease; width: 100%; padding-left: 5px;}
+        .ai:hover .message-actions { opacity: 1; }
+        .action-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 6px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .action-btn:hover { background: #e2e8f0; color: var(--accent-primary); }
+
+        /* ==========================================================================
+           6. ADVANCED CHAT INPUT BAR (Cleaned up, no Drive icon)
+           ========================================================================== */
+        .input-container { padding: 20px 40px 40px 40px; background: linear-gradient(to top, #ffffff 80%, transparent); position: relative;}
+        
+        .chat-input-wrapper { 
+            display: flex; align-items: center; gap: 10px; 
+            background: #ffffff; border: 1px solid var(--border-light); border-radius: 24px; 
+            padding: 8px 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.06); transition: 0.3s;
+        }
+        .chat-input-wrapper:focus-within { border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        
+        .tool-icon-btn { background: transparent; border: none; color: var(--text-muted); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .tool-icon-btn:hover { background: #f1f5f9; color: var(--text-main); }
+        
+        /* Pulse Animation for active microphone */
+        .tool-icon-btn.recording { color: var(--status-danger); animation: pulse-mic 1.5s infinite; }
+        @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+        .chat-input { flex: 1; border: none; padding: 12px; font-size: 1.05rem; outline: none; background: transparent; color: var(--text-main); }
+        .chat-submit { background: var(--accent-primary); color: white; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+        .chat-submit:hover { background: #1d4ed8; transform: scale(1.05); }
+        
+        .hidden-file-input { display: none; }
+
+        /* Floating Temp File Badge */
+        .temp-file-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--text-main); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: none; z-index: 10;}
+        .temp-file-badge .close-btn { cursor: pointer; color: #cbd5e1; font-size: 1.1rem; line-height: 1; transition: 0.2s;}
+        .temp-file-badge .close-btn:hover { color: var(--status-danger); }
+
+        /* ==========================================================================
+           7. TOAST NOTIFICATIONS & TYPING
+           ========================================================================== */
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 10px;}
+        .toast { background: white; border-left: 4px solid var(--status-danger); padding: 16px 20px; border-radius: var(--radius-sm); box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 0.95rem; animation: slideIn 0.3s forwards; color: var(--text-main); }
+        .toast.success { border-left-color: var(--status-success); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .typing-indicator { display: inline-flex; gap: 4px; padding: 10px 5px; }
+        .typing-dot { width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0.3); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">KF</div>
+            <div class="brand-name">KnowledgeFlow</div>
+        </div>
+        
+        <nav class="nav-container">
+            <div class="nav-group">
+                <div class="nav-group-header">Knowledge Pipeline</div>
+                <a href="/ingestion" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Multi-Format Ingestion
+                </a>
+                <a href="/vector-indexing" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    Semantic Vector Indexing
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-header">Intelligence Core</div>
+                <a href="/chat-engine" class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    Context-Aware Engine
+                </a>
+                <a href="/source-attribution" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    Source Attribution
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-header">Analytics & Records</div>
+                <a href="/metrics" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    Real-Time Metrics
+                </a>
+                <a href="/chat-history" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    Persistent Chat History
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="btn-logout">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> 
+                Terminate Session
+            </a>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <header class="topbar">
+            <div class="system-status">
+                Intelligence Engine 
+                <span class="live-indicator"><div class="pulse"></div> Gemini 2.5 Flash API</span>
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <div class="user-name">Kolli Sai Satwika</div>
+                    <div class="user-role">System Administrator</div>
+                </div>
+                <div class="avatar">PA</div>
+            </div>
+        </header>
+
+        <div class="chat-layout">
+            <div class="chat-core">
+                <div class="chat-scroll" id="chatScrollArea">
+                    
+                    <div class="message-wrapper ai">
+                        <div class="chat-avatar">KF</div>
+                        <div class="bubble-container">
+                            <div class="bubble"><strong>System Initialized successfully.</strong><br><br>I am connected to the KnowledgeFlow Vector Database. You can query your globally indexed data natively, or use the <strong>+</strong> icon below to upload a temporary file for localized analysis.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="input-container">
+                    
+                    <div class="temp-file-badge" id="tempFileBadge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+                        <span id="tempFileName">Document.pdf</span>
+                        <div class="close-btn" onclick="clearTempFile()" title="Remove file">✖</div>
+                    </div>
+
+                    <div class="chat-input-wrapper">
+                        
+                        <button class="tool-icon-btn" title="Add temporary document for this chat" onclick="document.getElementById('chatTempFileInput').click()">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                        <input type="file" id="chatTempFileInput" class="hidden-file-input" accept=".pdf,.docx,.txt,.csv" onchange="handleTempFileUpload(this)">
+
+                        <input type="text" id="userInput" class="chat-input" placeholder="Message the Knowledge Base..." onkeypress="if(event.key === 'Enter') triggerRAGQuery()">
+                        
+                        <button class="tool-icon-btn" id="micBtn" title="Use Voice Input" onclick="toggleSpeechRecognition()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                        </button>
+
+                        <button class="chat-submit" onclick="triggerRAGQuery()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // -----------------------------------------
+        // 1. TEMPORARY FILE UPLOAD (+) ICON
+        // -----------------------------------------
+        let windowTempContext = null;
+        let windowTempFileName = null;
+
+        async function handleTempFileUpload(inputElement) {
+            if(inputElement.files.length === 0) return;
+            const file = inputElement.files[0];
+            
+            showToast(`Reading ${file.name}...`, false, true);
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch('/api/chat/temp_upload', { method: 'POST', body: formData });
+                const data = await response.json();
+                
+                if(data.status === 'success') {
+                    windowTempContext = data.extracted_content;
+                    windowTempFileName = data.filename;
+                    
+                    document.getElementById('tempFileName').innerText = file.name;
+                    document.getElementById('tempFileBadge').style.display = 'flex';
+                    showToast("Temporary context active.", false, true);
+                } else {
+                    showToast(data.message, true);
+                }
+            } catch (error) {
+                showToast("Failed to process local file.", true);
+            } finally {
+                inputElement.value = ''; // Reset
+            }
+        }
+
+        function clearTempFile() {
+            windowTempContext = null;
+            windowTempFileName = null;
+            document.getElementById('tempFileBadge').style.display = 'none';
+            showToast("Temporary context cleared.", false, true);
+        }
+
+        // -----------------------------------------
+        // 2. MAIN CHAT ENGINE
+        // -----------------------------------------
+        const chatArea = document.getElementById('chatScrollArea');
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
+        }
+
+        async function triggerRAGQuery(overrideQuery = null, existingMsgId = null) {
+            const inputField = document.getElementById('userInput');
+            const query = overrideQuery || inputField.value.trim();
+            if(!query) return;
+
+            // Render User Message
+            if (!existingMsgId) {
+                const safeQueryRender = escapeHTML(query);
+                chatArea.innerHTML += `
+                    <div class="message-wrapper user">
+                        <div class="chat-avatar">PA</div>
+                        <div class="bubble-container"><div class="bubble">${safeQueryRender}</div></div>
+                    </div>`;
+                inputField.value = '';
+            } else {
+                document.getElementById(existingMsgId).remove(); 
+            }
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            // Render Typing Indicator
+            const typingId = 'typing-' + Date.now();
+            chatArea.innerHTML += `
+                <div class="message-wrapper ai" id="${typingId}">
+                    <div class="chat-avatar">KF</div>
+                    <div class="bubble-container">
+                        <div class="bubble" style="padding: 12px 24px;">
+                            <div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+                        </div>
+                    </div>
+                </div>`;
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            // Prepare Payload 
+            const payload = { query: query };
+            if(windowTempContext) {
+                payload.temp_context = windowTempContext;
+                payload.temp_filename = windowTempFileName;
+            }
+
+            try {
+                const res = await fetch('/api/chat/ask', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                
+                document.getElementById(typingId).remove();
+                
+                const newMsgId = 'msg-' + Date.now();
+                const safeQueryForFunction = query.replace(/'/g, "\\'"); 
+
+                // RENDER AI MESSAGE (CLEAN UI - NO CITATION BOX)
+                chatArea.innerHTML += `
+                    <div class="message-wrapper ai" id="${newMsgId}">
+                        <div class="chat-avatar">KF</div>
+                        <div class="bubble-container">
+                            <div class="bubble">
+                                <div class="msg-content">${escapeHTML(data.response)}</div>
+                                
+                                <div class="message-actions">
+                                    <button class="action-btn" onclick="copyMessageText(this, '${newMsgId}')" title="Copy text">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    </button>
+                                    <button class="action-btn" onclick="triggerRAGQuery('${safeQueryForFunction}', '${newMsgId}')" title="Regenerate">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                chatArea.scrollTop = chatArea.scrollHeight;
+
+            } catch(e) {
+                document.getElementById(typingId).remove();
+                chatArea.innerHTML += `<div class="message-wrapper ai"><div class="chat-avatar">KF</div><div class="bubble-container"><div class="bubble" style="color:var(--status-danger); border-color:var(--status-danger);">API Connection Error.</div></div></div>`;
+            }
+        }
+
+        function copyMessageText(btn, msgId) {
+            const text = document.getElementById(msgId).querySelector('.msg-content').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const orgHTML = btn.innerHTML;
+                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-success)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                showToast("Copied to clipboard", false, true);
+                setTimeout(() => { btn.innerHTML = orgHTML; }, 2000);
+            });
+        }
+
+        // -----------------------------------------
+        // 3. MICROPHONE API (WEB SPEECH)
+        // -----------------------------------------
+        let recognition;
+        let isRecording = false;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRec();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+
+            recognition.onstart = function() {
+                isRecording = true;
+                document.getElementById('micBtn').classList.add('recording');
+                document.getElementById('userInput').placeholder = "Listening...";
+            };
+
+            recognition.onresult = function(event) {
+                let interim = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) { document.getElementById('userInput').value += event.results[i][0].transcript; } 
+                    else { interim += event.results[i][0].transcript; }
+                }
+            };
+
+            recognition.onerror = function() { toggleSpeechRecognition(); };
+            recognition.onend = function() {
+                isRecording = false;
+                document.getElementById('micBtn').classList.remove('recording');
+                document.getElementById('userInput').placeholder = "Message the Knowledge Base...";
+            };
+        }
+
+        function toggleSpeechRecognition() {
+            if(!recognition) { showToast("Speech API not supported.", true); return; }
+            if(isRecording) recognition.stop(); else recognition.start();
+        }
+
+        // -----------------------------------------
+        // 4. TOAST NOTIFICATIONS
+        // -----------------------------------------
+        function showToast(message, isError = false, isInfo = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let typeClass = 'success';
+            if(isError) typeClass = 'error';
+            if(isInfo) typeClass = 'info';
+            toast.className = `toast ${typeClass}`;
+            
+            let icon = `<svg width="20" height="20" fill="none" stroke="var(--status-success)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`;
+            if(isError) icon = `<svg width="20" height="20" fill="none" stroke="var(--status-danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+            if(isInfo) icon = `<svg width="20" height="20" fill="none" stroke="var(--accent-primary)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
+            
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

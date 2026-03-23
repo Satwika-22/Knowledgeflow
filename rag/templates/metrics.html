@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time Metrics | KnowledgeFlow AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --sidebar-bg: #0b1120; --sidebar-surface: #172033; --sidebar-text: #ffffff; --sidebar-muted: #94a3b8; --sidebar-border: rgba(255, 255, 255, 0.05); --sidebar-hover: rgba(255, 255, 255, 0.03);
+            --bg-main: #f4f7f9; --bg-panel: #ffffff; --text-main: #1e293b; --text-muted: #64748b; --border-light: #e2e8f0; --panel-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            --accent-primary: #3b82f6; --status-success: #10b981;
+            --sidebar-width: 280px; --radius-md: 12px; --radius-lg: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; overflow: hidden; background-color: var(--sidebar-bg); }
+        
+        /* EXACT SIDEBAR */
+        .sidebar { width: var(--sidebar-width); background-color: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); display: flex; flex-direction: column; z-index: 10; flex-shrink: 0; }
+        .sidebar-brand { padding: 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--sidebar-border); }
+        .brand-logo { width: 36px; height: 36px; background: linear-gradient(135deg, #6366f1, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: white; }
+        .brand-name { font-size: 1.2rem; font-weight: 700; color: var(--sidebar-text); }
+        .nav-container { flex: 1; overflow-y: auto; padding: 20px 0; }
+        .nav-group { margin-bottom: 32px; }
+        .nav-group-header { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--sidebar-muted); font-weight: 700; padding: 0 24px; margin-bottom: 12px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: var(--sidebar-muted); text-decoration: none; font-weight: 500; transition: 0.2s; border-left: 3px solid transparent; }
+        .nav-item:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text); }
+        .nav-item.active { background: var(--sidebar-surface); border-left-color: var(--accent-primary); color: var(--sidebar-text); }
+        .nav-icon { width: 18px; height: 18px; opacity: 0.8; }
+        .nav-item.active .nav-icon { color: #60a5fa; opacity: 1; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid var(--sidebar-border); }
+
+        /* WORKSPACE & DASHBOARD */
+        .workspace { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); }
+        .topbar { height: 75px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-panel); border-bottom: 1px solid var(--border-light); }
+        .dashboard-scroll { flex: 1; overflow-y: auto; padding: 50px; display: flex; flex-direction: column; gap: 40px; }
+        
+        /* KPI Cards */
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .kpi-card { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--panel-shadow); position: relative; overflow: hidden; }
+        .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent-primary); }
+        .kpi-title { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; }
+        .kpi-value { font-size: 2.5rem; font-weight: 800; color: var(--text-main); }
+        .kpi-unit { font-size: 1rem; color: var(--text-muted); font-weight: 600; }
+        
+        /* Chart Area */
+        .chart-panel { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--panel-shadow); }
+        .panel-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .panel-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-brand"><div class="brand-logo">KF</div><div class="brand-name">KnowledgeFlow</div></div>
+        <nav class="nav-container">
+            <div class="nav-group">
+                <div class="nav-group-header">Knowledge Pipeline</div>
+                <a href="/ingestion" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Multi-Format Ingestion</a>
+                <a href="/vector-indexing" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> Semantic Vector Indexing</a>
+            </div>
+            <div class="nav-group">
+                <div class="nav-group-header">Intelligence Core</div>
+                <a href="/chat-engine" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> Context-Aware Engine</a>
+                <a href="/source-attribution" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Source Attribution</a>
+            </div>
+            <div class="nav-group">
+                <div class="nav-group-header">Analytics & Records</div>
+                <a href="/metrics" class="nav-item active" style="border-left: none; background: var(--sidebar-surface);"><svg class="nav-icon" style="color:#60a5fa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Real-Time Metrics</a>
+                <a href="/chat-history" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Persistent Chat History</a>
+            </div>
+        </nav>
+        <div class="sidebar-footer" style="padding: 24px; border-top: 1px solid var(--sidebar-border); margin-top: auto;">
+            <button class="btn-logout" onclick="terminateSession()" style="
+                width: 100%; 
+                padding: 12px; 
+                background: transparent; 
+                border: 1px solid rgba(239, 68, 68, 0.5); 
+                color: #ef4444; 
+                border-radius: 6px; 
+                font-family: 'Inter', sans-serif;
+                font-weight: 600; 
+                font-size: 0.9rem; 
+                cursor: pointer; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                gap: 10px; 
+                transition: all 0.2s ease;
+            " onmouseover="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.borderColor='#ef4444';" onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(239, 68, 68, 0.5)';">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Terminate Session
+            </button>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <header class="topbar">
+            <div style="font-size: 1.25rem; font-weight: 700;">Performance Monitoring Dashboard</div>
+        </header>
+
+        <div class="dashboard-scroll">
+            
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Knowledge Base</div>
+                    <div class="kpi-value" id="kpiDocs">-- <span class="kpi-unit">Docs</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Avg API Latency</div>
+                    <div class="kpi-value" id="kpiLatency">-- <span class="kpi-unit">ms</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Tokens Consumed</div>
+                    <div class="kpi-value" id="kpiTokens">--</div>
+                </div>
+                <div class="kpi-card" style="border-left-color: #10b981;">
+                    <div class="kpi-title">System Health</div>
+                    <div class="kpi-value" style="color: #10b981;">99.9%</div>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <div class="panel-header">
+                    <div class="panel-title">LLM Token Usage vs Latency (Real-Time MySQL Sync)</div>
+                </div>
+                <div style="height: 400px; width: 100%;">
+                    <canvas id="metricsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ctx = document.getElementById('metricsChart').getContext('2d');
+        const metricsChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [
+                { label: 'Tokens Consumed', data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4, yAxisID: 'y' },
+                { label: 'Latency (ms)', data: [], borderColor: '#f59e0b', borderDash: [5, 5], tension: 0.4, yAxisID: 'y1' }
+            ]},
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'Tokens'} },
+                    y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, title: {display: true, text: 'Latency (ms)'} }
+                }
+            }
+        });
+
+        async function fetchMetrics() {
+            try {
+                const res = await fetch('/api/metrics/realtime');
+                const data = await res.json();
+                
+                // Update KPIs
+                document.getElementById('kpiDocs').innerHTML = `${data.kpis.indexed_docs} <span class="kpi-unit">Docs</span>`;
+                document.getElementById('kpiLatency').innerHTML = `${data.kpis.avg_latency} <span class="kpi-unit">ms</span>`;
+                document.getElementById('kpiTokens').innerHTML = `${(data.kpis.total_tokens / 1000).toFixed(1)}k`;
+
+                // Update Chart
+                const labels = data.chart_data.map(d => new Date(d.timestamp).toLocaleTimeString([], {minute:'2-digit', second:'2-digit'}));
+                const tokens = data.chart_data.map(d => d.tokens_consumed);
+                const latency = data.chart_data.map(d => d.api_latency_ms);
+
+                metricsChart.data.labels = labels;
+                metricsChart.data.datasets[0].data = tokens;
+                metricsChart.data.datasets[1].data = latency;
+                metricsChart.update();
+
+            } catch(e) { console.error("Metrics fetch failed", e); }
+        }
+
+        fetchMetrics();
+        setInterval(fetchMetrics, 3000); // Live update every 3 seconds
+    </script>
+</body>
+</html>

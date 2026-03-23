@@ -1,0 +1,166 @@
+[2026-03-22 12:43:31] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-22 12:43:31] INFO | app.deploy_schema | Deploying Enterprise Database Architecture...
+[2026-03-22 12:43:32] INFO | app.deploy_schema | Database Architecture Successfully Deployed & Seeded.
+[2026-03-22 12:43:57] INFO | app.api_visualize_document | Visualization API Triggered for Document ID: 3
+[2026-03-22 12:43:57] ERROR | app.api_visualize_document | MySQL Error during visualization: 1054 (42S22): Unknown column 'file_data' in 'field list'
+[2026-03-22 12:44:08] INFO | app.api_visualize_document | Visualization API Triggered for Document ID: 2
+[2026-03-22 12:44:08] ERROR | app.api_visualize_document | MySQL Error during visualization: 1054 (42S22): Unknown column 'file_data' in 'field list'
+[2026-03-22 12:57:45] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-22 12:57:45] INFO | app.deploy_schema | Deploying Enterprise Database Architecture...
+[2026-03-22 12:57:46] INFO | app.deploy_schema | Database Architecture Successfully Deployed & Seeded.
+[2026-03-22 12:57:52] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-22 12:57:52] INFO | app.deploy_schema | Deploying Enterprise Database Architecture...
+[2026-03-22 12:57:53] INFO | app.deploy_schema | Database Architecture Successfully Deployed & Seeded.
+[2026-03-22 12:58:09] INFO | app.api_visualize_document | Visualization API Triggered for Document ID: 3
+[2026-03-22 12:58:09] INFO | app.extract_from_file | Initiating physical extraction for: Project_questions.docx
+[2026-03-22 12:58:09] INFO | app.extract_from_file | Extraction complete in 170.47ms. Yielded 21516 chars.
+[2026-03-22 18:24:19] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-22 18:24:19] INFO | app.deploy_schema | Deploying Enterprise Database Architecture...
+[2026-03-22 18:24:20] INFO | app.deploy_schema | Database Architecture Successfully Deployed & Seeded.
+[2026-03-22 18:24:31] INFO | app.extract_from_file | Extracting physical file: Software_Testing_Assignment_2.docx
+[2026-03-22 18:24:31] INFO | app.extract_from_file | Extraction complete in 42.67ms. Yielded 4480 chars.
+[2026-03-22 18:24:46] INFO | app.extract_from_file | Extracting physical file: Software_Testing_Assignment_2.docx
+[2026-03-22 18:24:46] INFO | app.extract_from_file | Extraction complete in 36.55ms. Yielded 4480 chars.
+[2026-03-22 18:25:01] INFO | app.extract_from_file | Extracting physical file: Software_Testing_Assignment_2.docx
+[2026-03-22 18:25:01] INFO | app.extract_from_file | Extraction complete in 36.84ms. Yielded 4480 chars.
+[2026-03-22 18:51:53] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-22 18:51:53] INFO | app.deploy_schema | Deploying Enterprise Database Architecture...
+[2026-03-22 18:52:53] INFO | app.synthesize_response | GenerativeEngine: Local context absent. Polling Internal Knowledge Graph.
+[2026-03-22 18:52:53] WARNING | app.synthesize_response | GenerativeEngine: Query 'conclusion of vaahansetu' yielded no context or internal knowledge.
+[2026-03-22 18:53:14] INFO | app.synthesize_response | GenerativeEngine: Local context absent. Polling Internal Knowledge Graph.
+[2026-03-22 18:53:14] WARNING | app.synthesize_response | GenerativeEngine: Query 'conclusion' yielded no context or internal knowledge.
+[2026-03-23 09:33:14] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 09:33:14] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to local extraction.
+[2026-03-23 09:38:22] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 09:38:22] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 09:44:32] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 09:44:32] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 09:48:47] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 09:48:47] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 10:06:12] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:06:12] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 10:22:45] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:22:45] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 10:23:33] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:23:33] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 10:27:32] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:27:32] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+{"timestamp": "2026-03-23 10:30:08,375", "level": "INFO", "module": "app", "function": "<module>", "line": 219, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 10:30:08,376", "level": "WARNING", "module": "app", "function": "<module>", "line": 227, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 10:30:08,376", "level": "INFO", "module": "app", "function": "deploy_schema", "line": 871, "message": "Deploying Enterprise Database Architecture..."}
+{"timestamp": "2026-03-23 10:30:09,996", "level": "INFO", "module": "app", "function": "deploy_schema", "line": 953, "message": "Database Architecture Successfully Deployed & Seeded."}
+{"timestamp": "2026-03-23 10:30:13,738", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 175, "message": "Execution successful: api_visualize_document completed in 160.74 ms"}
+[2026-03-23 10:30:46] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:30:46] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+{"timestamp": "2026-03-23 10:48:43,389", "level": "INFO", "module": "app", "function": "<module>", "line": 203, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 10:48:43,390", "level": "WARNING", "module": "app", "function": "<module>", "line": 211, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+[2026-03-23 10:49:25] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:49:25] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+{"timestamp": "2026-03-23 10:52:14,747", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 10:52:14,748", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 10:52:41,813", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: api_visualize_document completed in 11993.62 ms"}
+[2026-03-23 10:53:27] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 10:53:27] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 11:07:47] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 11:07:47] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+{"timestamp": "2026-03-23 11:17:09,954", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 11:17:09,955", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 11:17:09,956", "level": "INFO", "module": "app", "function": "deploy_schema", "line": 648, "message": "Deploying Enterprise Database Architecture..."}
+{"timestamp": "2026-03-23 11:17:11,017", "level": "INFO", "module": "app", "function": "deploy_schema", "line": 711, "message": "Database Architecture Successfully Deployed & Seeded."}
+{"timestamp": "2026-03-23 11:17:53,420", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: api_visualize_document completed in 17125.66 ms"}
+{"timestamp": "2026-03-23 11:17:59,195", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: api_visualize_document completed in 131.60 ms"}
+{"timestamp": "2026-03-23 11:18:05,853", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: api_visualize_document completed in 207.56 ms"}
+[2026-03-23 11:26:43] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 11:26:43] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 11:26:43] INFO | app.deploy_schema | Database Architecture Successfully Deployed.
+{"timestamp": "2026-03-23 11:47:36,713", "level": "INFO", "module": "app", "function": "<module>", "line": 215, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 11:47:36,714", "level": "WARNING", "module": "app", "function": "<module>", "line": 223, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 11:47:51,685", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: api_visualize_document completed in 11458.22 ms"}
+{"timestamp": "2026-03-23 11:47:59,731", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: api_visualize_document completed in 406.91 ms"}
+{"timestamp": "2026-03-23 12:07:24,816", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: api_visualize_document completed in 619.00 ms"}
+[2026-03-23 12:08:31] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 12:08:31] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 12:08:32] INFO | app.deploy_schema | Database Architecture Successfully Deployed.
+{"timestamp": "2026-03-23 12:15:30,974", "level": "INFO", "module": "app", "function": "<module>", "line": 215, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 12:15:30,975", "level": "WARNING", "module": "app", "function": "<module>", "line": 223, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 12:15:41,083", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: api_visualize_document completed in 7429.52 ms"}
+{"timestamp": "2026-03-23 12:16:10,178", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: api_visualize_document completed in 179.60 ms"}
+[2026-03-23 12:16:33] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 12:16:33] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 12:16:33] INFO | app.deploy_schema | Database Architecture Successfully Deployed.
+{"timestamp": "2026-03-23 12:17:12,485", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 12:17:12,486", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 12:17:12,486", "level": "INFO", "module": "app", "function": "deploy_schema", "line": 648, "message": "Deploying Enterprise Database Architecture..."}
+{"timestamp": "2026-03-23 12:17:14,112", "level": "INFO", "module": "app", "function": "deploy_schema", "line": 711, "message": "Database Architecture Successfully Deployed & Seeded."}
+{"timestamp": "2026-03-23 12:17:16,862", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: api_visualize_document completed in 146.11 ms"}
+{"timestamp": "2026-03-23 12:17:32,905", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: api_visualize_document completed in 116.04 ms"}
+[2026-03-23 12:18:59] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 12:18:59] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 12:18:59] INFO | app.deploy_schema | Database Architecture Successfully Deployed.
+[2026-03-23 14:45:45] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 14:45:45] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 14:45:45] INFO | app.deploy_schema | Database Architecture Successfully Deployed.
+[2026-03-23 14:45:47] INFO | app.<module> | Storage Directory Verified & Mounted: C:\Users\panta\Downloads\rag\enterprise_uploads
+[2026-03-23 14:45:47] WARNING | app.<module> | GEMINI_API_KEY environment variable not found. LLM will fallback to pure text extraction.
+[2026-03-23 14:45:47] INFO | app.deploy_schema | Database Architecture Successfully Deployed.
+{"timestamp": "2026-03-23 14:57:18,847", "level": "INFO", "module": "app", "function": "<module>", "line": 215, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 14:57:18,848", "level": "WARNING", "module": "app", "function": "<module>", "line": 223, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 14:57:39,221", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: search_documents completed in 11256.26 ms"}
+{"timestamp": "2026-03-23 14:57:39,221", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: synthesize_response completed in 0.02 ms"}
+{"timestamp": "2026-03-23 14:57:39,361", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 833, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 15:09:32,928", "level": "INFO", "module": "app", "function": "<module>", "line": 215, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:09:32,928", "level": "WARNING", "module": "app", "function": "<module>", "line": 223, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:09:48,612", "level": "INFO", "module": "app", "function": "<module>", "line": 215, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:09:48,612", "level": "WARNING", "module": "app", "function": "<module>", "line": 223, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:10:04,291", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:10:04,291", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:11:10,437", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 171, "message": "Execution successful: search_documents completed in 12806.20 ms"}
+{"timestamp": "2026-03-23 15:11:10,438", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 171, "message": "Execution successful: synthesize_response completed in 0.01 ms"}
+{"timestamp": "2026-03-23 15:11:10,570", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 810, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 15:11:45,102", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 171, "message": "Execution successful: search_documents completed in 10715.67 ms"}
+{"timestamp": "2026-03-23 15:11:45,102", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 171, "message": "Execution successful: synthesize_response completed in 0.03 ms"}
+{"timestamp": "2026-03-23 15:11:45,234", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 810, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 15:41:40,231", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:41:40,232", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:41:41,888", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:41:41,888", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:42:18,557", "level": "INFO", "module": "app", "function": "<module>", "line": 215, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:42:18,557", "level": "WARNING", "module": "app", "function": "<module>", "line": 223, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:42:51,094", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: search_documents completed in 9734.74 ms"}
+{"timestamp": "2026-03-23 15:42:51,095", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 173, "message": "Execution successful: synthesize_response completed in 0.03 ms"}
+{"timestamp": "2026-03-23 15:42:51,216", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 836, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 15:52:03,799", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 15:52:03,799", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 15:53:32,189", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: search_documents completed in 10227.26 ms"}
+{"timestamp": "2026-03-23 15:53:32,190", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: synthesize_response completed in 0.10 ms"}
+{"timestamp": "2026-03-23 15:53:32,546", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 798, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 16:03:11,194", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 16:03:11,194", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 16:03:40,916", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: search_documents completed in 13644.69 ms"}
+{"timestamp": "2026-03-23 16:03:40,924", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: synthesize_response completed in 0.01 ms"}
+{"timestamp": "2026-03-23 16:03:41,258", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 823, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 16:08:46,890", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 16:08:46,891", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 16:09:37,547", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: search_documents completed in 9107.59 ms"}
+{"timestamp": "2026-03-23 16:09:37,547", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: synthesize_response completed in 0.01 ms"}
+{"timestamp": "2026-03-23 16:09:37,661", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 823, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 16:17:31,012", "level": "INFO", "module": "app", "function": "<module>", "line": 214, "message": "Storage Directory Verified & Mounted: C:\\Users\\panta\\Downloads\\rag\\enterprise_uploads"}
+{"timestamp": "2026-03-23 16:17:31,012", "level": "WARNING", "module": "app", "function": "<module>", "line": 222, "message": "GEMINI_API_KEY environment variable not found. Engine will fallback to internal semantic extraction."}
+{"timestamp": "2026-03-23 16:17:53,286", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: search_documents completed in 12448.51 ms"}
+{"timestamp": "2026-03-23 16:17:53,286", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 172, "message": "Execution successful: synthesize_response completed in 0.01 ms"}
+{"timestamp": "2026-03-23 16:17:53,384", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 816, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 16:22:54,156", "level": "WARNING", "module": "app", "function": "<module>", "line": 200, "message": "GEMINI_API_KEY not found. Fallback to internal extraction."}
+{"timestamp": "2026-03-23 16:23:20,447", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 155, "message": "Execution successful: search_documents completed in 13943.73 ms"}
+{"timestamp": "2026-03-23 16:23:20,448", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 155, "message": "Execution successful: synthesize_response completed in 0.01 ms"}
+{"timestamp": "2026-03-23 16:23:20,573", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 744, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 16:23:40,837", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 155, "message": "Execution successful: search_documents completed in 12643.02 ms"}
+{"timestamp": "2026-03-23 16:23:40,837", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 155, "message": "Execution successful: synthesize_response completed in 0.01 ms"}
+{"timestamp": "2026-03-23 16:23:40,980", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 744, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 16:40:33,295", "level": "WARNING", "module": "app", "function": "<module>", "line": 202, "message": "GEMINI_API_KEY not found. Fallback to internal extraction."}
+{"timestamp": "2026-03-23 16:41:05,592", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 157, "message": "Execution successful: search_documents completed in 11955.87 ms"}
+{"timestamp": "2026-03-23 16:41:05,593", "level": "DEBUG", "module": "app", "function": "wrapper", "line": 157, "message": "Execution successful: synthesize_response completed in 0.02 ms"}
+{"timestamp": "2026-03-23 16:41:05,702", "level": "ERROR", "module": "app", "function": "api_process_query", "line": 771, "message": "Failed to log interaction: 1264 (22003): Out of range value for column 'api_latency_ms' at row 1"}
+{"timestamp": "2026-03-23 17:56:46,348", "level": "WARNING", "module": "app", "function": "<module>", "line": 202, "message": "GEMINI_API_KEY not found. Fallback to internal extraction."}
+{"timestamp": "2026-03-23 17:56:48,003", "level": "WARNING", "module": "app", "function": "<module>", "line": 202, "message": "GEMINI_API_KEY not found. Fallback to internal extraction."}
+{"timestamp": "2026-03-23 18:12:21,134", "level": "WARNING", "module": "app", "function": "<module>", "line": 202, "message": "GEMINI_API_KEY not found. Fallback to internal extraction."}
+{"timestamp": "2026-03-23 18:50:08,308", "level": "WARNING", "module": "app", "function": "<module>", "message": "GEMINI_API_KEY not found. Fallback to internal extraction."}

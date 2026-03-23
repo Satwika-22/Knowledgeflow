@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | KnowledgeFlow AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root { 
+            --primary: #8b5cf6; /* Using purple accent for Register */
+            --primary-hover: #7c3aed;
+            --dark: #0b1120; 
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+        
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { margin: 0; display: flex; height: 100vh; overflow: hidden; background: #f8fafc; }
+        
+        .register-container { display: flex; width: 100%; }
+        
+        /* Left Image Side */
+        .image-side { flex: 1.2; background: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000') center/cover; position: relative; display: flex; align-items: center; justify-content: center; padding: 60px; }
+        .image-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(88, 28, 135, 0.6) 100%); }
+        .glass-box { position: relative; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; color: white; max-width: 500px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .glass-box h2 { font-size: 2.5rem; font-weight: 800; margin-top: 0; margin-bottom: 15px; line-height: 1.2;}
+        .glass-box p { font-size: 1.05rem; opacity: 0.9; line-height: 1.6; margin-bottom: 0;}
+        .highlight { color: #c084fc; }
+
+        /* Right Form Side */
+        .form-side { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; background: white; z-index: 2; overflow-y: auto;}
+        .card { width: 100%; max-width: 420px; }
+        
+        .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+        .brand-logo { width: 40px; height: 40px; background: linear-gradient(135deg, #6366f1, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: white; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
+        .brand-name { font-size: 1.5rem; font-weight: 800; color: var(--dark); letter-spacing: -0.5px;}
+        
+        h2.form-title { margin: 0 0 8px 0; font-size: 1.8rem; color: var(--text-main); font-weight: 800;}
+        p.subtitle { color: var(--text-muted); margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5;}
+        
+        .input-group { position: relative; margin-bottom: 18px; }
+        .input-group i.left-icon { position: absolute; left: 16px; top: 14px; color: #94a3b8; }
+        .input-group input { width: 100%; padding: 12px 14px 12px 45px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s ease; outline: none; background: #f8fafc;}
+        .input-group input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); }
+        .toggle-pwd { position: absolute; right: 16px; top: 14px; color: #94a3b8; cursor: pointer; transition: 0.2s; }
+        .toggle-pwd:hover { color: var(--primary); }
+        
+        .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 25px; color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;}
+        .checkbox-group input { margin-top: 3px; }
+        a { color: var(--primary); text-decoration: none; font-weight: 600; transition: 0.2s;}
+        a:hover { color: var(--primary-hover); text-decoration: underline; }
+        
+        .btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);}
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4); }
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        /* Validation Match CSS */
+        .match-status { font-size: 0.8rem; margin-top: 5px; font-weight: 600; text-align: right; display: none; }
+        .match-success { color: #10b981; display: block; }
+        .match-error { color: #ef4444; display: block; }
+
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="image-side">
+            <div class="image-overlay"></div>
+            <div class="glass-box">
+                <h2>Initialize your<br>Knowledge Base.</h2>
+                <p>Join the secure RAG platform. Upload your enterprise documents, compute high-dimensional vectors, and empower your generative LLMs to <span class="highlight">think beyond the document</span>.</p>
+            </div>
+        </div>
+
+        <div class="form-side">
+            <div class="card">
+                <div class="brand-header">
+                    <div class="brand-logo">KF</div>
+                    <div class="brand-name">KnowledgeFlow</div>
+                </div>
+
+                <h2 class="form-title">Create Account</h2>
+                <p class="subtitle">Set up your secure administrative access.</p>
+
+                <form id="regForm" action="/login" method="GET">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user left-icon"></i>
+                        <input type="text" placeholder="Full Administrator Name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope left-icon"></i>
+                        <input type="email" placeholder="Enterprise Email Address" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock left-icon"></i>
+                        <input type="password" id="p1" placeholder="Create Password" required>
+                        <i class="fa-solid fa-eye-slash toggle-pwd" onclick="toggleVisibility('p1', this)"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-shield-check left-icon"></i>
+                        <input type="password" id="p2" placeholder="Confirm Password" required>
+                        <i class="fa-solid fa-eye-slash toggle-pwd" onclick="toggleVisibility('p2', this)"></i>
+                        <div id="matchIndicator" class="match-status">Passwords do not match</div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" required>
+                        <label>I agree to the <a href="#">System Architecture Guidelines</a> and <a href="#">Data Privacy Policy</a>.</label>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn" disabled>Provision Workspace</button>
+                </form>
+                
+                <p style="margin-top: 30px; text-align: center; color: var(--text-muted); font-size: 0.95rem;">
+                    Already provisioned? <a href="/login">Initialize Session</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password Visibility Toggle
+        function toggleVisibility(id, el) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                el.classList.replace("fa-eye-slash", "fa-eye");
+            } else {
+                input.type = "password";
+                el.classList.replace("fa-eye", "fa-eye-slash");
+            }
+        }
+
+        // Real-time Matching Logic
+        const p1 = document.getElementById('p1');
+        const p2 = document.getElementById('p2');
+        const indicator = document.getElementById('matchIndicator');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function checkMatch() {
+            if (p2.value.length === 0) {
+                indicator.style.display = 'none';
+                submitBtn.disabled = true;
+                return;
+            }
+            
+            if (p1.value === p2.value) {
+                indicator.textContent = '✓ Passwords match mathematically';
+                indicator.className = 'match-status match-success';
+                submitBtn.disabled = false;
+            } else {
+                indicator.textContent = '✕ Vectors do not align (Mismatch)';
+                indicator.className = 'match-status match-error';
+                submitBtn.disabled = true;
+            }
+        }
+
+        p1.addEventListener('input', checkMatch);
+        p2.addEventListener('input', checkMatch);
+    </script>
+</body>
+</html>
